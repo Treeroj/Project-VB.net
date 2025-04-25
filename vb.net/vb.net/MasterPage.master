@@ -1,0 +1,1436 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
+    <script src="assets/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/bootstrap/js/bootstrap-toggle.min.js" type="text/javascript"></script>
+    <link href="assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet" type="text/css" />
+    <link href="Styles/css/PST.css" rel="stylesheet" type="text/css" />
+    <!----------------------------Dropdownlist Treeroj ADD 20/6/2002----------------------------------------------------------------------->
+    <link href="Styles/css/select2.css" rel="stylesheet" type="text/css" />
+    <script src="Styles/js/select2.js" type="text/javascript"></script>
+
+
+    <script>
+        function pageLoad(sender, args) {
+            $(document).ready(function () {
+                $(function () {
+                    $(".js-example-placeholder-single").select2({
+                        /*placeholder: "กรุณาเลือก Code",*/
+                        allowClear: true
+                    });
+
+                });
+            });
+        }
+    </script>
+    <!----------------------------------------------------------------------------------------------------------------------------------->
+    <title>PROMPT SERVICE TEAM</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<script type="text/javascript">
+    //////////////////////////////////////////////////////////////////////////
+    $(document).keydown(function (e) {
+        var self = $(':focus'),
+            form = self.parents('form:eq(0)'),
+            focusable;
+        focusable = form.find('input,a,select,button,textarea').filter(':visible');
+        function enterKey() {
+            if (e.which === 13 && !self.is('textarea')) {
+                if ($.inArray(self, focusable) && (!self.is('a')) && (!self.is('button'))) {
+                    e.preventDefault();
+                }
+                focusable.eq(focusable.index(self) + (e.shiftKey ? -1 : 1)).focus();
+                return false;
+            }
+        }
+        if (e.shiftKey) { enterKey() } else { enterKey() }
+    });
+    //////////////////////////////////////////////////////////////////////////
+    function Menu() {
+        $('#showWebApp').modal('hide');
+        $('#showMonitor').modal('hide');
+        $('#showMnHistory').modal('hide');
+        $('#showResult').modal('hide');
+    }
+    function LoginPage() {
+        $('#showWebApp').modal('hide');
+        $('#showMonitor').modal('hide');
+        $('#showMnHistory').modal('hide');
+        $('#showResult').modal('hide');
+    }
+    function WebAppOpen() {
+        $('#showWebApp').modal('show');
+        $('#showMonitor').modal('hide');
+        $('#showMnHistory').modal('hide');
+        $('#showResult').modal('hide');
+    }
+</script>
+<body style="background-image: url('../PST/imgPST/muRata_BG.png')">
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
+        <asp:Timer ID="Timer1" runat="server" Interval="20000" Enabled="false"></asp:Timer>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+        </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!--nav-->
+        <div style="font-family: 'Century Gothic'">
+            <nav class="navbar navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand navbar-inverse navbar-fixed-top navbar-custom">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle border" data-toggle="collapse" data-target="#myNavbar" onclick="javascript:Menu();"><span><i class="fas fa-bars" style="color: black;"></i></span></button>
+                    </div>
+                    <div id="myNavbar" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <%-- Spread action variable --%>
+                            <li><a id="btnShowLogin" href="/PST-SA10/LOGIN" class="navbar-item nav-link" runat="server" onclick="javascript:LoginPage();"><span><i class="fas fa-sign-in-alt"></i></span>&nbsp;LOGIN&nbsp;&nbsp;&nbsp;</a></li>
+                            <%-- ---------------------- --%>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <li><a id="A1" class="navbar-item" runat="server" onclick="javascript:Menu();"><span><i class="fas fa-h-square"></i></span>&nbsp;HOME</a></li>
+                        </ul>
+                        <%--<ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <li><a id="btnResult" class="navbar-item" runat="server" onclick="javascript:ResultOpen();"><span><i class="fas fa-laptop-code"></i></span>&nbsp;PST VISUALIZATION</a></li>
+                        </ul>--%>
+                        <ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <li><a id="btnMnHistory" class="navbar-item" runat="server" onclick="javascript:MnHistoryOpen();"><span><i class="fas fa-history"></i></span>&nbsp;MAINTENANCE HISTORY</a></li>
+                        </ul>
+                        <script type="text/javascript">
+                            function MnHistoryOpen() {
+                                $('#showWebApp').modal('hide');
+                                $('#showMnHis').modal('show');
+                            }
+                        </script>
+                        <ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <%-- Spread action variable --%>
+                            <li><a id="btnMonitor" href="//172.16.72.179/PST-SA10/PSTMonitor.aspx" class="navbar-item" runat="server" onclick="javascript:MonitorOpen();"><span><i class="fas fa-tv"></i></span>&nbsp;MONITOR</a></li>
+                            <%-- ---------------------- --%>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right navbar-expand-lg navbar-expand-xs navbar-expand-md navbar-expand">
+                            <li><a id="btnWebApp" class="navbar-item" runat="server" onclick="javascript:WebAppOpen();"><span><i class="fas fa-mobile-alt"></i></span>&nbsp;WEB APPLICATION</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!--end nav-->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- main -->
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+            <Triggers>
+            </Triggers>
+            <ContentTemplate>
+                <asp:Panel ID="pnMain" runat="server" CssClass="mainPage" Width="90%">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtLeft" style="color: #525B5C; font-weight: 1000; font-family: 'Century Gothic';">
+                            <label style="color: #F5002F; font-weight: 1000;">
+                                P</label>
+                            R O M P T -
+                        <label style="color: #F5002F; font-weight: 1000;">
+                            S</label>
+                            E R V I C E -
+                        <label style="color: #F5002F; font-weight: 1000;">
+                            T</label>
+                            E A M
+                        </div>
+                    </div>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <!-- end main -->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- web application -->
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div id="showWebApp" class="modal fade dialog1" tabindex="-2" role="dialog" aria-labelledby="ModalTitle"
+                    aria-hidden="true" data-backdrop="false">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtLeft navMenu">
+                                <label>
+                                    <span><i class="fas fa-mobile-alt"></i></span>&nbsp;WEB APPLICATION</label>
+                            </div>
+                        </div>
+                        <asp:Panel ID="Panel1" runat="server" CssClass="navItem">
+                            <p id="btnShowAnn" type="button" runat="server" onclick="javascript:Announce();">
+                                <span><i class="fas fa-bullhorn"></i></span>&nbsp;Announcements
+                            </p>
+                            <script type="text/javascript">
+                                function Announce() {
+                                    location.reload();
+                                    $('#showWebApp').modal('hide');
+                                    $('#showMonitor').modal('hide');
+                                    $('#showMnHistory').modal('hide');
+                                    $('#showResult').modal('hide');
+                                    $('#showAnnounce').modal('show');
+                                    $('#showPst').modal('hide');
+                                }
+                            </script>
+                            <br />
+                            <p id="btnShowPst" type="button" runat="server" onclick="javascript:PromptServiceTeam();">
+                                <span><i class="fas fa-taxi"></i></span>&nbsp;Prompt service team
+                            </p>
+                            <script type="text/javascript">
+                                function PromptServiceTeam() {
+                                    $('#showWebApp').modal('hide');
+                                    $('#showMonitor').modal('hide');
+                                    $('#showMnHistory').modal('hide');
+                                    $('#showResult').modal('hide');
+                                    $('#showAnnounce').modal('hide');
+                                    $('#showPst').modal('show');
+                                }
+                            </script>
+                        </asp:Panel>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <!-- Prompt Service Team (Passengers) -->
+        <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
+            <Triggers>
+            </Triggers>
+            <ContentTemplate>
+                <asp:Panel ID="pnAnnounce" runat="server">
+                    <div class="modal fade MostZIndex" id="showAnnounce" tabindex="-2" role="dialog" aria-labelledby="ModalTitle"
+                        aria-hidden="true" data-backdrop="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtRight">
+                                            <button id="btnCloseAnn" type="button" runat="server" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript:clsAnn();">
+                                                &times;</button>
+                                            <script type="text/javascript">
+                                                function clsAnn() {
+
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtCenter">
+                                            <table style="width: 100%;">
+                                                <tr>
+                                                    <td width="10%" class="txtLeft">
+                                                        <img src="imgPST/Murata_Logo2.png" class="img-rounded imgSize" alt="stuff1">
+                                                    </td>
+                                                    <td class="txtRight">
+                                                        <div class="txtTitle">
+                                                            ANNOUNCEMENTS
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="carouselPayout" class="carousel slide" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <div class="modal-body" style="width: 100%;">
+                                                <div class="row">
+                                                    <div class="col-12 txtCenter">
+                                                        <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional">
+                                                            <Triggers>
+                                                                <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                            </Triggers>
+                                                            <ContentTemplate>
+                                                                <asp:Panel ID="pnAnnMcId" runat="server" Visible="true">
+                                                                    <label class="custom-field three" style="width: 100%">
+                                                                        <asp:TextBox ID="tbAnnMcQr" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true"
+                                                                            required Width="100%" TextMode="Password" class="txtCenter" />
+                                                                        <span class="placeholder" style="font-weight: 200">&nbsp;MACHINE ID&nbsp;</span> <span class="border"></span>
+                                                                    </label>
+                                                                </asp:Panel>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                        <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional">
+                                                            <Triggers>
+                                                                <asp:AsyncPostBackTrigger ControlID="tbAnnMcQr" EventName="TextChanged" />
+                                                                <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                            </Triggers>
+                                                            <ContentTemplate>
+                                                                <asp:Label ID="lbAnnMc" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbAnnDep" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbAnnFact" runat="server" Visible="false" />
+                                                                <asp:Panel ID="pnAnnMcResult" runat="server" Visible="False">
+                                                                    <table style="width: 100%;">
+                                                                        <tr>
+                                                                            <td width="40%">
+                                                                                <label class="custom-field three" style="width: 100%">
+                                                                                    <asp:TextBox ID="tbAnnMc" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false" Visible="true"
+                                                                                        required Width="100%" class="txtCenter" />
+                                                                                    <span class="placeholder" style="font-weight: 200">&nbsp;MACHINE NAME&nbsp;</span> <span class="border"></span>
+                                                                                </label>
+                                                                            </td>
+                                                                            <td width="60%">
+                                                                                <label class="custom-field three" style="width: 100%">
+                                                                                    <asp:TextBox ID="tbAnnBlock" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                        Visible="true" required Width="100%" class="txtCenter" />
+                                                                                    <span class="placeholder" style="font-weight: 200">&nbsp;MACHINE BLOCK&nbsp;</span> <span class="border"></span>
+                                                                                </label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </asp:Panel>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                    </div>
+                                                    <div class="col-12 txtCenter">
+                                                        <table style="width: 100%;">
+                                                            <tr>
+                                                                <td width="30%">
+                                                                    <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                                                                        <Triggers>
+                                                                            <asp:AsyncPostBackTrigger ControlID="tbAnnMcQr" EventName="TextChanged" />
+
+                                                                            <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                                        </Triggers>
+                                                                        <ContentTemplate>
+                                                                            <asp:DropDownList ID="ddlAnnSection" runat="server" CssClass="ddSection" AutoPostBack="True" />
+                                                                        </ContentTemplate>
+                                                                    </asp:UpdatePanel>
+                                                                </td>
+                                                                <td width="70%">
+                                                                    <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional">
+                                                                        <Triggers>
+                                                                            <asp:AsyncPostBackTrigger ControlID="tbAnnMcQr" EventName="TextChanged" />
+                                                                            <asp:AsyncPostBackTrigger ControlID="ddlAnnSection" EventName="SelectedIndexChanged" />
+
+                                                                            <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                                        </Triggers>
+                                                                        <ContentTemplate>
+                                                                            <asp:DropDownList ID="ddlAnnLossCd" runat="server" TabIndex="2" CssClass="ddLossCd" AutoPostBack="true" />
+                                                                        </ContentTemplate>
+                                                                    </asp:UpdatePanel>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-12 txtCenter">
+                                                        <h5 style="font-family: Century Gothic;">
+                                                            <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional">
+                                                                <Triggers>
+                                                                    <asp:AsyncPostBackTrigger ControlID="tbAnnMcQr" EventName="TextChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="ddlAnnSection" EventName="SelectedIndexChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="ddlAnnLossCd" EventName="SelectedIndexChanged" />
+                                                                    <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                                </Triggers>
+                                                                <ContentTemplate>
+                                                                    <asp:Label ID="lbAnnEvent" runat="server" Visible="false" />
+                                                                    <asp:GridView ID="gvEvent" runat="server" Width="100%" AutoGenerateColumns="False" BorderStyle="None" GridLines="none" ShowHeader="False" OnRowCommand="EventRowCommand">
+                                                                        <Columns>
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkEvent" runat="server" CommandName="Select" class="btn btn-secondary" CommandArgument='<%# Container.DataItemIndex %>'><span><i class="fas fa-dot-circle fa-3x"></i></span></asp:LinkButton>
+                                                                                </ItemTemplate>
+                                                                                <ItemStyle BackColor="transparent" Width="5%" CssClass="txtCenter" />
+                                                                            </asp:TemplateField>
+                                                                            <asp:BoundField DataField="EVENT" SortExpression="EVENT">
+                                                                                <ItemStyle BackColor="transparent" Width="95%" CssClass="txtLeft txtEvent" />
+                                                                            </asp:BoundField>
+                                                                        </Columns>
+                                                                    </asp:GridView>
+
+                                                                    <%-- B'Boss test new annount project --%>    
+
+                                                                    <asp:RadioButtonList ID="AnnRdoProblem" runat="server" AutoPostBack="True" Font-Size="10pt" Font-Bold="False" RepeatLayout="Flow">
+                                                                        <asp:ListItem name="ALARM" Text="เครื่องอลาม" />
+                                                                        <asp:ListItem name="DEFECTIVE" Text="เกิดงานเสีย" />
+                                                                        <asp:ListItem name="NOALARM" Text="เครื่องค้างไม่อลาม" />
+                                                                    </asp:RadioButtonList>
+                                                                    <%-- ----------------------- --%>
+<%--                                                                    <script type="text/javascript">
+                                                                        function RadioChanged() {
+                                                                            if (document.getElementById('ALARM').checked) {
+                                                                                document.getElementById("btnAnnEnter").style.visibility = "visible";
+                                                                            }
+                                                                            if (document.getElementById('DEFECTIVE').checked) {
+                                                                                document.getElementById("btnAnnEnter").style.visibility = "visible";
+                                                                            }
+                                                                            if (document.getElementById('NOALARM').checked) {
+                                                                                document.getElementById("btnAnnEnter").style.visibility = "visible";
+                                                                            }
+                                                                            else
+                                                                                document.getElementById("btnAnnEnter").style.visibility = "hidden";
+                                                                        }
+                                                                    </script>--%>
+
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
+                                                            <h5></h5>
+                                                            <h5></h5>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-12 txtCenter">
+
+                                                        <%-- B'Boss test new annount project --%>
+                                                      
+                                                        <asp:UpdatePanel ID="UpdatePanel31" runat="server" UpdateMode="Conditional">
+                                                            <Triggers>
+                                                                <asp:AsyncPostBackTrigger ControlID="tbAnnMcQr" EventName="TextChanged" />
+                                                                <asp:AsyncPostBackTrigger ControlID="AnnRdoProblem" EventName="SelectedIndexChanged" />
+                                                                <asp:AsyncPostBackTrigger ControlID="ddlAnnLossCd" EventName="SelectedIndexChanged" />
+                                                                <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                            </Triggers>
+
+                                                            <ContentTemplate>
+
+<!--------------------------------------------------------------Edit test new annount project--------------------------------------------------------------------------------->
+                                                                
+                                                                <%-- Alarm code --%>
+                                                                <%--<asp:Panel ID="Panel2" runat="server" Visible="true">--%>
+                                                                    <%--<label class="custom-field two" style="width: 100%">
+                                                                        <asp:TextBox ID="tbMcAlarmCodeRDO" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                            Visible="false" required Width="100%" class="txtCenter" />
+                                                                    </label>--%>
+                                                                    <asp:DropDownList ID="ddlMcAlarmCode1" runat="server" AutoPostBack="true"
+                                                                        CssClass="form-control js-example-placeholder-single" ToolTip="Select" Visible="false">
+                                                                    </asp:DropDownList>
+                                                                <%--</asp:Panel>--%>
+                                                                
+                                                                <%-- Defect code --%>
+                                                                <%--<asp:Panel ID="Panel3" runat="server">--%>
+                                                                    <%--</br>--%>
+                                                                       <asp:DropDownList ID="ddlMcDefectCode1" runat="server" AutoPostBack="true"
+                                                                         CssClass="form-control js-example-placeholder-single" ToolTip="Select" Visible="false">
+                                                                       </asp:DropDownList>
+                                                                <%--</asp:Panel>--%>
+                                                                
+                                                                <%--<asp:Panel ID="Panel4" runat="server">--%>   
+                                                                 <label  class="custom-field three" style="width: 100%" >
+                                                                    <asp:TextBox ID="tbAnnRemark" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                        Visible="false" required Width="100%" class="txtCenter" />
+                                                                        <span class="placeholder" style="font-weight: 200">&nbsp;REMARK&nbsp;(โปรดระบุ)</span> <span class="border"></span>
+                                                                        
+                                                                 </label>
+                                                                
+                                                                <%--</asp:Panel>--%>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                        <%--<asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional">
+                                                            <Triggers>
+                                                                <asp:PostBackTrigger ControlID="btnAnnEnter" />
+                                                            </Triggers>
+                                                            <ContentTemplate>
+                                                                <label class="custom-field three" style="width: 100%">
+                                                                    <asp:TextBox ID="tbAnnRemark" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                        Visible="false" required Width="100%" class="txtCenter" />
+                                                                    <span class="placeholder" style="font-weight: 200">&nbsp;REMARK&nbsp;</span> <span class="border"></span>
+                                                                </label>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>--%>
+
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->                                                    
+                                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td class="txtLeft">
+                                                            <asp:UpdatePanel ID="UpdatePanel26" runat="server" UpdateMode="Conditional">
+                                                                <ContentTemplate>
+                                                                    <p id="btnShowPst2" type="button" runat="server" onclick="javascript:PromptServiceTeam();" style="width: 10%">
+                                                                        <span><i class="fas fa-3x fa-taxi"></i></span>
+                                                                    </p>
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
+                                                        </td>
+                                                        <td class="txtRight">
+                                                            <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional">
+<%----------------------------------------------------------------Edit test new annount project 8/4/2022-----------------------------------------------------------------------------------%>
+                                                                <Triggers>
+                                                                    <asp:AsyncPostBackTrigger ControlID="AnnRdoProblem" EventName="SelectedIndexChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="ddlMcAlarmCode1" EventName="SelectedIndexChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="ddlMcDefectCode1" EventName="SelectedIndexChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="tbAnnRemark" EventName="TextChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="ddlAnnLossCd" EventName="SelectedIndexChanged" />
+                                                                    <asp:AsyncPostBackTrigger ControlID="gvEvent" EventName="SelectedIndexChanged" />
+                                                                </Triggers>
+<%------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%>                                                    
+                                                
+                                                                <ContentTemplate>
+                                                                    <a id="btnAnnEnter" type="button" runat="server" class="btn btnEnter" enableviewstate="False" visible="false">S U B M I T</a>
+                                                                    <script type="text/javascript">
+                                                                        $(document).ready(function () {
+                                                                            window.history.replaceState('', '', window.location.href)
+                                                                        });
+                                                                    </script>
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%--<div>
+                                        <a id="AnnNext" runat="server" class="right carousel-control carousel-control-next-icon" href="#carouselPayout"
+                                            data-slide="next"></span></a>
+                                    </div>--%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <!-- Prompt Service Team -->
+        <asp:UpdatePanel ID="UpdatePanel14" runat="server" UpdateMode="Conditional">
+            <Triggers>
+            </Triggers>
+            <ContentTemplate>
+                <asp:Panel ID="pnPst" runat="server">
+                    <div class="modal fade MostZIndex" id="showPst" tabindex="-2" role="dialog" aria-labelledby="ModalTitle"
+                        aria-hidden="true" data-backdrop="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtRight">
+                                            <button id="Button1" type="button" runat="server" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript:clsPst();">
+                                                &times;</button>
+                                            <script type="text/javascript">
+                                                function clsPst() {
+                                                    $('#showWebApp').modal('show');
+                                                    $('#showMonitor').modal('hide');
+                                                    $('#showMnHistory').modal('hide');
+                                                    $('#showResult').modal('hide');
+                                                    $('#showAnnounce').modal('hide');
+                                                    $('#showPst').modal('hide');
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtCenter">
+                                            <table style="width: 100%;">
+                                                <tr>
+                                                    <td width="10%" class="txtLeft">
+                                                        <img src="imgPST/Murata_Logo2.png" class="img-rounded imgSize" alt="stuff1">
+                                                    </td>
+                                                    <td class="txtRight">
+                                                        <div class="txtTitle">
+                                                            PROMPT SERVICE TEAM
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="carouselPST" class="carousel slide" data-interval="false">
+                                        <div class="carousel-inner">
+                                            <div class="item">
+                                                <!-- PST station -->
+                                                <div class="modal-body" style="width: 100%;">
+                                                    <p class="txtTitle"><span><i class="fas fa-taxi"></i></span>STATION</p>
+                                                    <asp:UpdatePanel ID="UpdatePanel17" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <h6 style="font-family: Century Gothic;">
+                                                                <asp:GridView ID="gvPstStationChk" runat="server" Font-Size="6pt" Visible="false" />
+                                                                <asp:GridView ID="gvPstStation" runat="server" Width="100%" GridLines="None" ShowHeaderWhenEmpty="false"
+                                                                    AutoGenerateColumns="false" ShowHeader="true" HeaderStyle-ForeColor="#196F3D" HeaderStyle-BackColor="Transparent" HeaderStyle-Height="60px">
+                                                                    <Columns>
+                                                                        <asp:BoundField DataField="DTE" SortExpression="DTE" HeaderText="LOG-IN">
+                                                                            <HeaderStyle Width="20%" Font-Italic="False" Font-Bold="false" CssClass="txtCenter txtEvent" />
+                                                                            <ItemStyle CssClass="txtCenter txtEvent" BackColor="transparent" ForeColor="#000" Width="20%" Font-Italic="True" />
+                                                                        </asp:BoundField>
+                                                                        <asp:BoundField DataField="NAME" SortExpression="NAME" HeaderText="NAME">
+                                                                            <HeaderStyle Width="60%" Font-Italic="False" Font-Bold="false" CssClass="txtCenter txtEvent" />
+                                                                            <ItemStyle CssClass="txtLeft txtEvent" BackColor="transparent" ForeColor="#000" Width="60%" Font-Italic="True" />
+                                                                        </asp:BoundField>
+                                                                        <asp:BoundField>
+                                                                            <%--<asp:BoundField DataField="WS" SortExpression="WS" HeaderText="WS">--%>
+                                                                            <HeaderStyle Width="20%" Font-Italic="False" Font-Bold="false" CssClass="txtCenter txtEvent" />
+                                                                            <ItemStyle CssClass="txtLeft txtEvent" BackColor="transparent" ForeColor="#000" Width="20%" Font-Italic="True" />
+                                                                        </asp:BoundField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </h6>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+                                            <div class="item active">
+                                                <!-- PST job list -->
+                                                <div class="modal-body" style="width: 100%;">
+                                                    <p class="txtTitle"><span><i class="fas fa-list-ol"></i></span>JOB LIST</p>
+                                                    <asp:UpdatePanel ID="UpdatePanel18" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
+                                                            <asp:AsyncPostBackTrigger ControlID="btnPstBackResp" EventName="ServerClick" />
+                                                            <asp:PostBackTrigger ControlID="btnPstBackFin" />
+                                                            <asp:AsyncPostBackTrigger ControlID="btnPstBackSupp" EventName="ServerClick" />
+                                                            <asp:AsyncPostBackTrigger ControlID="btnPstBackCancel" EventName="ServerClick" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <h6 style="font-family: Century Gothic;">
+                                                                <asp:Label ID="lbPstId" runat="server" Visible="false" />
+                                                                <asp:GridView ID="gvPstCnt" runat="server" Font-Size="6pt" Visible="false" />
+                                                                <asp:GridView ID="gvPst" runat="server" Width="100%" GridLines="None" ShowHeaderWhenEmpty="false"
+                                                                    AutoGenerateColumns="false" ShowHeader="false" HeaderStyle-ForeColor="#196F3D"
+                                                                    HeaderStyle-BackColor="Transparent" HeaderStyle-Height="60px" OnRowCommand="PstListRowCommand" OnRowDataBound="PstBound">
+                                                                    <Columns>
+                                                                        <asp:BoundField DataField="DETAIL" SortExpression="DETAIL" HeaderText="JOB DETAIL">
+                                                                            <HeaderStyle Font-Italic="False" Font-Bold="false" CssClass="txtCenter" />
+                                                                            <ItemStyle CssClass="txtLeft txtEvent" BackColor="transparent" ForeColor="#000" Font-Italic="True" />
+                                                                        </asp:BoundField>
+                                                                        <asp:TemplateField>
+                                                                            <ItemTemplate>
+                                                                                <asp:Image ID="imgPst" runat="server" class="img-responsive img-rounded PstItemImg" />
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle CssClass="txtLeft PstHeader" />
+                                                                            <ItemStyle CssClass="txtCenter PstItem" />
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField>
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkPstResp"
+                                                                                    runat="server"
+                                                                                    CommandName="Select"
+                                                                                    class="btn"
+                                                                                    CommandArgument='<%# Container.DataItemIndex %>'>
+                                                                                    <span><i class="fas fa-2x fa-user-cog"></i></span>
+                                                                                </asp:LinkButton>
+                                                                                <asp:LinkButton ID="lnkPstSupp"
+                                                                                    runat="server"
+                                                                                    CommandName="Select1"
+                                                                                    class="btn"
+                                                                                    CommandArgument='<%# Container.DataItemIndex %>'>
+                                                                                    <span><i class="fas fa-2x fa-users-cog"></i></span>
+                                                                                </asp:LinkButton>
+                                                                                <asp:LinkButton ID="lnkPstFin"
+                                                                                    runat="server"
+                                                                                    CommandName="Select2"
+                                                                                    class="btn"
+                                                                                    CommandArgument='<%# Container.DataItemIndex %>'>
+                                                                                    <span><i class="fas fa-2x fa-user-check"></i></span>
+                                                                                </asp:LinkButton>
+                                                                                <asp:LinkButton ID="lnkPstCls"
+                                                                                    runat="server"
+                                                                                    CommandName="Select3"
+                                                                                    class="btn"
+                                                                                    CommandArgument='<%# Container.DataItemIndex %>'>
+                                                                                    <span><i class="far fa-2x fa-times-circle"></i></span>
+                                                                                </asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle BackColor="transparent" Font-Bold="False" CssClass="txtCenter" Width="5%" />
+                                                                            <ItemStyle BackColor="transparent" ForeColor="White" CssClass="txtCenter" Width="5%" />
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </h6>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                    <!-- PST Responder -->
+                                                    <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="gvPst" EventName="RowCommand" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <asp:Panel ID="pnPstResp" runat="server">
+                                                                <asp:GridView ID="gvChkPstResp" runat="server" Font-Size="6pt" Visible="false" />
+                                                                <div class="row">
+                                                                    <div class="col-12 txtCenter txtTitle">
+                                                                        <span style="color: #FF0000"><i class="fas fa-user-cog"></i>&nbsp;PST~RESPOND</span>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <br>
+                                                                        </br>
+                                                                        <table style="width: 100%;">
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Request time</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstRespDte" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Machine number</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstRespMc" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Loss code</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstRespLossCd" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Event</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstRespEvent" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > System</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstRespSelect" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">PST > Respond</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstResp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+
+                                                                       <!----- Treeroj Add 11/10/2022 PST Finished Machine ----->
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">PST > Machine</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbChkPstMachine" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        <!----------------------------------------------------->
+
+                                                                        </table>
+
+                                                                        </table>
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstResp" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+
+                                                                        <!----- Treeroj Add 11/10/2022 PST Finished Machine ----->
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstMachine" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID (Machine)&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <!----------------------------------------------------->
+
+                                                                        <p class="blinking" style="color: #0000FF" id="lbChkPstResp" runat="server" />
+                                                                    </div>
+                                                                    <div class="col-12 txtRight">
+                                                                        <a id="btnPstBackResp" runat="server" type="button" class="btn"><span><i class="fas fa-undo"></i>BACK/SAVE</span></a>
+                                                                    </div>
+                                                                </div>
+                                                            </asp:Panel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                    <!-- PST Supporter -->
+                                                    <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="gvPst" EventName="RowCommand" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <asp:Panel ID="pnPstSupp" runat="server">
+                                                                <asp:GridView ID="gvChkPstChkSupp" runat="server" Font-Size="6pt" Visible="false" />
+                                                                <div class="row">
+                                                                    <div class="col-12 txtCenter txtTitle">
+                                                                        <span style="color: #009900"><i class="fas fa-users-cog"></i>&nbsp;PST~SUPPORT</span>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <br>
+                                                                        </br>
+                                                                        <table style="width: 100%;">
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Request time</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppDte" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Machine number</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppMc" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Loss code</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppLossCd" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Event</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppEvent" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > System</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppSelect" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > Respond</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstSuppResp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">PST > Support</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstSupp" runat="server" />
+                                                                                    <p class="txtEvent" id="lbPstSuppChk" runat="server" visible="false" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstSupp" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <p class="blinking" style="color: #0000FF" id="lbChkPstSupp" runat="server" />
+                                                                    </div>
+                                                                    <div class="col-12 txtRight">
+                                                                        <a id="btnPstBackSupp" runat="server" type="button" class="btn"><span><i class="fas fa-undo"></i>BACK/SAVE</span></a>
+                                                                    </div>
+                                                                </div>
+                                                            </asp:Panel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                    <!-- PST Finished -->
+                                                    <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="gvPst" EventName="RowCommand" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <asp:Panel ID="pnPstFin" runat="server">
+
+                                                                <asp:GridView ID="gvChkPstFin" runat="server" Font-Size="6pt" Visible="false" />
+
+                                                                <div class="row">
+                                                                    <div class="col-12 txtCenter txtTitle">
+                                                                        <span style="color: #0099FF"><i class="fas fa-user-check"></i>&nbsp;PST~FINISHED</span>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <br>
+                                                                        </br>
+                                                                        <table style="width: 100%;">
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Request time</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinDte" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Machine number</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinMc" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Loss code</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinLossCd" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Event</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinEvent" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > System</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinSelect" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > Respond</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinResp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">PST > Support</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstFinSupp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">PST > Finished</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstFin" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <!----- Treeroj Add 01/06/2022 PST Finished OPERATOR ----->
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">Operator > Finished</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstFinOp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <!----------------------------------------------------->
+                                                                        </table>
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstFin" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <!----- Treeroj Add 01/06/2022 PST Finished OPERATOR ----->
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstFinOp" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID (OPERATOR)&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <!----------------------------------------------------->
+                                                                        <p class="blinking" style="color: #0000FF" id="lbChkPstFin" runat="server" />
+                                                                    </div>
+                                                                    
+                                                                    <asp:Panel ID="pnMnRecord" runat="server">
+                                                                    <div class="col-12 txtLeft txtReport">
+                                                                        </br>
+                                                                        <p>1. รูปปัญหาที่พบ~Picture problem</p>
+                                                                        <asp:UpdatePanel ID="UpdatePanel20" runat="server" UpdateMode="Conditional">
+                                                                            <Triggers>
+                                                                                <asp:PostBackTrigger ControlID="btnPstBackFin" />
+                                                                            </Triggers>
+                                                                            <ContentTemplate>
+                                                                                <asp:FileUpload ID="imgProblem" runat="server" Width="100%" />
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                        <p class="blinking">*** ตรวจสอบขนาดรูปต้องไม่เกิน 2,400 X 2,400 Pixel</p>
+                                                                        </br>
+                                                                        <p>2. รายละเอียดของปัญหา~Problem detail</p>
+                                                                        <%-- Chronic problem addition --%>
+                                                                        <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional">
+                                                                            <Triggers>
+                                                                                <asp:AsyncPostBackTrigger ControlID="ddlChrNicPB" EventName="SelectedIndexChanged" />
+                                                                            </Triggers>
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="ddlChrNicPB" runat="server" AutoPostBack="true"
+                                                                                    CssClass="form-control js-example-placeholder-single" ToolTip="Select" Visible="true">
+                                                                                </asp:DropDownList>
+
+                                                                                <label class="custom-field two" style="width: 100%">
+                                                                                    <asp:TextBox ID="tbOtherProblem" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="False"
+                                                                                        Visible="true" required Width="100%" class="txtCenter" />
+                                                                                    <span class="placeholder" style="font-weight: 200">Other problem detail</span> <span class="border"></span>
+                                                                                </label>
+
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                        </br>
+                                                                        </br>
+                                                                        <p>3. สาเหตุของปัญหา~Failure cause</p>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbCause" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">Failure Cause</span> <span class="border"></span>
+                                                                        </label>
+                                                                        </br>
+                                                                        </br>
+                                                                        <p>4. มีการปรับเครื่องหรือไม่?</p>
+                                                                        <asp:UpdatePanel ID="UpdatePanel23" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:RadioButtonList ID="rblAdjust" runat="server" AutoPostBack="True" Font-Size="10pt" Font-Bold="False">
+                                                                                    <asp:ListItem Text="มีการปรับเครื่อง" Selected="True" />
+                                                                                    <asp:ListItem Text="ไม่มีการปรับเครื่อง" />
+                                                                                    <asp:ListItem Text="เปลี่ยนพาร์ทใหม่" />
+                                                                                </asp:RadioButtonList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                        <asp:UpdatePanel ID="UpdatePanel24" runat="server" UpdateMode="Conditional">
+                                                                            <Triggers>
+                                                                                <asp:AsyncPostBackTrigger ControlID="rblAdjust" EventName="SelectedIndexChanged" />
+                                                                            </Triggers>
+                                                                            <ContentTemplate>
+                                                                                <asp:Panel ID="pnAdjustMc" runat="server" Visible="true">
+                                                                                    <label class="custom-field two" style="width: 100%">
+                                                                                        <asp:TextBox ID="tbAdjustMc1" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                            Visible="true" required Width="100%" class="txtCenter" />
+                                                                                        <span class="placeholder" style="font-weight: 200">ปรับอะไรไป?</span> <span class="border"></span>
+                                                                                    </label>
+                                                                                    <label class="custom-field two" style="width: 100%">
+                                                                                        <asp:TextBox ID="tbAdjustMc2" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                            Visible="true" required Width="100%" class="txtCenter" />
+                                                                                        <span class="placeholder" style="font-weight: 200">ก่อนการแก้ไขเป็นยังไง</span> <span class="border"></span>
+                                                                                    </label>
+                                                                                    <label class="custom-field two" style="width: 100%">
+                                                                                        <asp:TextBox ID="tbAdjustMc3" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                            Visible="true" required Width="100%" class="txtCenter" />
+                                                                                        <span class="placeholder" style="font-weight: 200">หลังการแก้ไขเป็นยังไง</span> <span class="border"></span>
+                                                                                    </label>
+                                                                                </asp:Panel>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                        </br>
+                                                                        </br>
+                                                                        <p>5. วิธีการแก้ไขปัญหา~Recovery method</p>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbRecovery1" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">1.</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbRecovery2" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">2.</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbRecovery3" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">3.</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbRecovery4" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">4.</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbRecovery5" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200">5.</span> <span class="border"></span>
+                                                                        </label>
+                                                                        </br>
+                                                                        </br>
+                                                                        <p>ข้อเสนอแนะ , ข้อแนะนำ , ข้อร้องเรียน (ถ้ามี)</p>
+                                                                        <label class="custom-field two" style="width: 100%">
+                                                                            <asp:TextBox ID="tbComment" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="false"
+                                                                                Visible="true" required Width="100%" class="txtCenter" />
+                                                                            <span class="placeholder" style="font-weight: 200"></span><span class="border"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    </asp:Panel>
+                                                                    <asp:Panel ID="pnMnRecordBtn" runat="server">
+                                                                        <div class="col-12 txtRight">
+                                                                            <a id="btnPstBackFin" runat="server" type="button" class="btn"><span><i class="fas fa-undo"></i>BACK/SAVE</span></a>
+                                                                        </div>
+                                                                    </asp:Panel>
+                                                                </div>
+                                                            </asp:Panel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                    <!-- PST Cancel order -->
+                                                    <asp:UpdatePanel ID="UpdatePanel25" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="gvPst" EventName="RowCommand" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <asp:Panel ID="pnPstCancelOrder" runat="server">
+                                                                <div class="row">
+                                                                    <div class="col-12 txtCenter txtTitle">
+                                                                        <span style="color: #000000"><i class="far fa-times-circle"></i>&nbsp;PST~CANCEL ORDER</span>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <br>
+                                                                        </br>
+                                                                        <table style="width: 100%;">
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Request time</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstCancelDte" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Machine number</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstCancelMc" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Loss code</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstCancelLossCd" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent">Event</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" id="lbPstCancelEvent" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">PST > Cancel</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstCancel" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="40%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF">Operator > Confirm</p>
+                                                                                </td>
+                                                                                <td width="60%" style="vertical-align: top">
+                                                                                    <p class="txtEvent" style="color: #0000FF" id="lbPstCancelOp" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstCancel" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <label class="custom-field three" style="width: 100%">
+                                                                            <asp:TextBox ID="tbPstCancelOp" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                                Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                            <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID (OPERATOR)&nbsp;</span> <span class="border"></span>
+                                                                        </label>
+                                                                        <p class="blinking" style="color: #0000FF" id="lbChkPstCancel" runat="server" />
+                                                                    </div>
+                                                                    <div class="col-12 txtRight">
+                                                                        <a id="btnPstBackCancel" runat="server" type="button" class="btn"><span><i class="fas fa-undo"></i>BACK/DELETE</span></a>
+                                                                    </div>
+                                                                </div>
+                                                            </asp:Panel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+
+
+                                            <%--<div class="item">--%>
+                                               <!---------------- Treeroj cancel 11/10/2022 PST report ----------------------->
+                                                <!-- PST report page -->
+                                                <%--<div class="modal-body" style="width: 100%;">--%>
+                                                    <%--<p class="txtTitle"><span><i class="far fa-file-alt"></i></span>REPORT</p>--%>
+                                                    <%--<asp:UpdatePanel ID="UpdatePanel16" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
+                                                            <asp:PostBackTrigger ControlID="btnPstBackFin" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <h6 style="font-family: Century Gothic;">
+                                                                <asp:Label ID="lbPstReportId" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbPstReportDte" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbPstReportMc" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbPstReportLossCd" runat="server" Visible="false" />
+                                                                <asp:Label ID="lbPstReportEvent" runat="server" Visible="false" />        
+                                                                <asp:Panel ID="pnPstReportSearch" runat="server">
+                                                                    <label class="custom-field three" style="width: 100%">
+                                                                        <asp:TextBox ID="tbPstReportSearch" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                            Visible="true" required Width="100%" class="txtCenter" TextMode="Password" />
+                                                                        <span class="placeholder" style="font-weight: 200">&nbsp;QR CODE/EMP.ID&nbsp;</span> <span class="border"></span>
+                                                                    </label>
+                                                                </asp:Panel>
+                                                                <asp:Label ID="lbPstReportSearch" runat="server" Visible="false" />
+                                                                <asp:GridView ID="gvPstReport" runat="server" Width="100%" GridLines="None" ShowHeaderWhenEmpty="false"
+                                                                    AutoGenerateColumns="false" ShowHeader="false" HeaderStyle-ForeColor="#196F3D"
+                                                                    HeaderStyle-BackColor="Transparent" HeaderStyle-Height="60px" OnRowCommand="PstReportListRowCommand">
+                                                                    <Columns>
+                                                                        <asp:BoundField DataField="DETAIL" SortExpression="DETAIL">
+                                                                            <HeaderStyle Font-Italic="False" Font-Bold="false" CssClass="txtCenter" />
+                                                                            <ItemStyle CssClass="txtLeft txtEvent" BackColor="transparent" ForeColor="#000" Font-Italic="True" />
+                                                                        </asp:BoundField>
+                                                                        <asp:TemplateField>
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkPstReportList"
+                                                                                    runat="server"
+                                                                                    CommandName="Select"
+                                                                                    class="btn btn-primary"
+                                                                                    CommandArgument='<%# Container.DataItemIndex %>'>
+                                                                                    <span><i class="far fa-file-alt"></i></span>
+                                                                                </asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle BackColor="transparent" Font-Bold="False" CssClass="txtCenter" Width="5%" />
+                                                                            <ItemStyle BackColor="transparent" ForeColor="White" Width="5%" CssClass="txtCenter" />
+                                                                        </asp:TemplateField>
+                                                                        <asp:BoundField>
+                                                                            <HeaderStyle Width="5%" />
+                                                                            <ItemStyle Width="5%" />
+                                                                        </asp:BoundField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </h6>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>--%>
+                                                    <!-- PST Report -->
+                                                    <%--<asp:UpdatePanel ID="UpdatePanel19" runat="server" UpdateMode="Conditional">
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="gvPstReport" EventName="RowCommand" />
+                                                        </Triggers>
+                                                        <ContentTemplate>
+                                                            <asp:Panel ID="pnPstReport" runat="server">
+                                                                <div class="row">
+                                                                    <div class="col-12 txtCenter txtTitle">
+                                                                        <span style="color: #3366FF"><i class="far fa-file-alt"></i>
+                                                                            <asp:Label ID="IbLineshow" runat="server" />
+                                                                            <br>
+                                                                        <br>
+                                                                        <br></br>
+                                                                        <asp:Label ID="IbMcshow" runat="server" />
+                                                                        <br>
+                                                                        <br>
+                                                                        <br></br>
+                                                                        <br></br>
+                                                                        <br></br>
+                                                                        </br>
+                                                                        </br>
+                                                                        </br>
+                                                                            </br>
+                                                                        </span>
+
+                                                                        <span style="color: #FF69B4">
+                                                                            <asp:Label ID="Ibnameshow" runat="server" />
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                            </asp:Panel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+
+
+                                        </div>
+                                        <div>
+                                            <a id="A6" runat="server" class="right carousel-control carousel-control-next-icon" href="#carouselPST"
+                                                data-slide="next"></span></a>
+                                            <a id="A3" runat="server" class="left carousel-control carousel-control-next-icon" href="#carouselPST"
+                                                data-slide="prev"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:GridView ID="gvChkPstSupp" runat="server" Font-Size="6pt" />
+                                    <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional">
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnPstBackResp" EventName="ServerClick" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnPstBackSupp" EventName="ServerClick" />
+                                            <asp:PostBackTrigger ControlID="btnPstBackFin" />
+                                        </Triggers>
+                                        <ContentTemplate>
+                                            <table style="width: 100%;">
+                                                <tr>
+                                                    <td width="50%" class="txtCenter">
+                                                        <h1 class="txtCenter">
+                                                            <font style="font-family: Century Gothic;"><a id="lbAvaiPst" runat="server" style="color: #F5002F">0</a>
+                                                            </font><span></span>
+                                                        </h1>
+                                                        <p class="txtCenter">
+                                                            <font style="font-family: Century Gothic; color: #F5002F;">available</font>
+                                                        </p>
+                                                    </td>
+                                                    <td width="50%" class="txtCenter">
+                                                        <h1 class="txtCenter">
+                                                            <font style="font-family: Century Gothic;"><a id="lbBusyPst" runat="server" style="color: #196F3D">0</a>
+                                                            </font><span></span>
+                                                        </h1>
+                                                        <p class="txtCenter">
+                                                            <font style="font-family: Century Gothic; color: #196F3D;">support</font>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <!-- end web application -->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- Maintenance history -->
+        <asp:Panel ID="Panel6" runat="server">
+            <div class="modal fade MostZIndex" id="showMnHis" tabindex="-2" role="dialog" aria-labelledby="ModalTitle"
+                aria-hidden="true" data-backdrop="false">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 txtRight">
+                                    <button id="Button9" type="button" runat="server" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 txtLeft">
+                                    <h2>
+                                        <span><i class="fas fa-history"></i></span>&nbsp;MAINTENANCE HISTORY
+                                    </h2>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 txtRight">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td width="30%">
+                                                <asp:UpdatePanel ID="UpdatePanel27" runat="server" UpdateMode="Conditional">
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="btnMnHistory" EventName="ServerClick" />
+                                                    </Triggers>
+                                                    <ContentTemplate>
+                                                        <label class="custom-field-calendar two" style="width: 100%">
+                                                            <asp:TextBox ID="tbMnHisBeginDte" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                Visible="true" required Width="100%" />
+                                                            <cc1:CalendarExtender ID="tbMnHisBeginDte_CalendarExtender" runat="server" Enabled="True" TargetControlID="tbMnHisBeginDte"
+                                                                Format="dd-MMM-yyyy" CssClass="cal" />
+                                                            <span class="placeholder">&nbsp;<i class="far fa-calendar-alt"></i>&nbsp;BEGIN DATE</span> <span class="border"></span>
+                                                        </label>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </td>
+                                            <td width="30%">
+                                                <asp:UpdatePanel ID="UpdatePanel28" runat="server" UpdateMode="Conditional">
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="btnMnHistory" EventName="ServerClick" />
+                                                    </Triggers>
+                                                    <ContentTemplate>
+                                                        <label class="custom-field-calendar two" style="width: 100%">
+                                                            <asp:TextBox ID="tbMnHisUntilDte" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                Visible="true" required Width="100%" />
+                                                            <cc1:CalendarExtender ID="tbMnHisUntilDte_CalendarExtender" runat="server" Enabled="True" TargetControlID="tbMnHisUntilDte"
+                                                                Format="dd-MMM-yyyy" CssClass="cal" />
+                                                            <span class="placeholder">&nbsp;<i class="far fa-calendar-alt"></i>&nbsp;UNTIL DATE</span> <span class="border"></span>
+                                                        </label>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </td>
+                                            <td width="40%">
+                                                <asp:UpdatePanel ID="UpdatePanel29" runat="server" UpdateMode="Conditional">
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="btnMnHistory" EventName="ServerClick" />
+                                                    </Triggers>
+                                                    <ContentTemplate>
+                                                        <label class="custom-field-calendar two" style="width: 100%">
+                                                            <asp:TextBox ID="tbMnHisSearch" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true"
+                                                                Visible="true" required Width="100%" />
+                                                            <span class="placeholder">&nbsp;<i class="far fa-circle fa-1x"></i>&nbsp;SEARCH</span> <span class="border"></span>
+                                                        </label>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <asp:UpdatePanel ID="UpdatePanel30" runat="server" UpdateMode="Conditional">
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="btnMnHistory" EventName="ServerClick" />
+                                    <asp:AsyncPostBackTrigger ControlID="tbMnHisBeginDte" EventName="TextChanged" />
+                                    <asp:AsyncPostBackTrigger ControlID="tbMnHisUntilDte" EventName="TextChanged" />
+                                    <asp:AsyncPostBackTrigger ControlID="tbMnHisSearch" EventName="TextChanged" />
+                                </Triggers>
+                                <ContentTemplate>
+                                    <asp:GridView ID="gvPstHis" runat="server" Font-Size="6pt" Visible="false" />
+                                    <asp:GridView ID="gvMnHis" runat="server" Visible="true" ShowHeaderWhenEmpty="True" AutoGenerateColumns="False"
+                                        Width="100%" OnRowDataBound="imgPstBound">
+                                        <Columns>
+                                            <asp:BoundField HeaderText="DATE-TIME" DataField="SDTE" SortExpression="SDTE">
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="5%" CssClass="txtCenter" />
+                                            </asp:BoundField>
+                                            <asp:TemplateField HeaderText="Picture problem">
+                                                <ItemTemplate>
+                                                    <asp:Image ID="imgPst" runat="server" CssClass="img-responsive img-rounded" />
+                                                </ItemTemplate>
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="15%" CssClass="txtCenter" />
+                                            </asp:TemplateField>
+                                            <asp:BoundField HeaderText="PROBLEM DETAIL" DataField="DB1" SortExpression="DB1">
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="20%" CssClass="txtLeftTop" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="MACHINES ADJUSTMENT" DataField="DB2" SortExpression="DB2">
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="20%" CssClass="txtLeftTop" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="RECOVERY METHOD" DataField="DB3" SortExpression="DB3">
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="20%" CssClass="txtLeftTop" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="P.S.T." DataField="ID" SortExpression="ID">
+                                                <HeaderStyle Font-Bold="false" CssClass="txtCenter" />
+                                                <ItemStyle Width="20%" CssClass="txtLeftTop" />
+                                            </asp:BoundField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </asp:Panel>
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- LOADING --------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <div>
+            <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                <ProgressTemplate>
+                    <asp:Panel ID="pnLoading" runat="server" class="loading" BackColor="transparent">
+                        <img src="imgPST/Load3.gif" class="img-responsive img-rounded" alt="stuff2" width="50%" />
+                    </asp:Panel>
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    </form>
+</body>
+</html>

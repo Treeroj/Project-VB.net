@@ -1,0 +1,474 @@
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="2.aspx.vb" Inherits="ADMIN_ASS_REGISUSER" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="assets/css/boxicons.min.css" rel="stylesheet" />
+    <link href="assets/css/quill.snow.css" rel="stylesheet" />
+    <link href="assets/css/quill.bubble.css" rel="stylesheet" />
+    <link href="assets/css/remixicon.css" rel="stylesheet" />
+    <link href="assets/css/simple-datatables.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/datatables.min.css" rel="stylesheet" />
+
+    <script>
+        function pageLoad(sender, args) {
+            $(document).ready(function () {
+                $(function () {
+                    $(".js-example-placeholder-single").select2({
+                        allowClear: true
+                    });
+
+                });
+            });
+        }
+    </script>
+     <script type="text/javascript">
+         window.onload = function () {
+             document.getElementById("loading").style.display = "none";
+         };
+
+         window.onbeforeunload = function () {
+             document.getElementById("loading").style.display = "block";
+         };
+
+         function showLoading() {
+             document.getElementById("loading").style.display = "block";
+         }
+
+     </script>
+
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
+        <!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="index.html" class="logo d-flex align-items-center">
+                    <span class="d-none d-lg-block">MT800 NVP</span>
+                     <img src="<%= ResolveUrl("~/image/Gear.gif") %>" alt="Loading..." width="10%"  />
+                </a>
+                <i class="bi bi-list toggle-sidebar-btn"></i>
+            </div>
+            <div class="search-bar">
+            </div>
+            <nav class="header-nav ms-auto">
+                <ul class="d-flex align-items-center">
+                    <li class="nav-item d-block d-lg-none">
+                        <a class="nav-link nav-icon search-bar-toggle " href="#">
+                            <i class="bi bi-search"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pe-3">
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            <%--<img src="image/116496843.jfif" alt="Profile" class="rounded-circle"/>--%>
+                            <span class="d-none d-md-block ps-2">840PRASS</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+         <aside id="sidebar" class="sidebar">
+            <ul class="sidebar-nav" id="sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="index.html">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-heading" style="font-size: 1rem;">Menu</li>
+                <li class="nav-item">
+                    <a class="nav-link " data-bs-toggle="collapse" data-bs-target="#MaterialBarcodeSystem-nav">
+                        <i class="bi bi-menu-button-wide"></i>
+                        <span>MaterialBarcodeSystem</span>
+                        <i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul class="collapse show" id="MaterialBarcodeSystem-nav" data-bs-parent="#sidebar-nav">
+                        <li class="nav-heading" style="font-size: 1rem;">MaterialBarcode SMT
+                             
+
+                           
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" data-bs-toggle="collapse" href="#MaterialBarcodeSystemSMT-nav">
+                                <i class="bi bi-menu-button-wide"></i>
+                                <span>MBS (SMT)</span>
+                                <i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="collapse" id="MaterialBarcodeSystemSMT-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#MaterialBarcodeSystemSMT1-nav">
+                                        <i class="bi bi-menu-button-wide"></i>
+                                        <span>SMT Using</span>
+                                        <i class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                    <ul class="nav-content collapse" id="MaterialBarcodeSystemSMT1-nav">
+                                        <li>
+                                            <a href="SMTMBSetup.aspx">
+                                                <i class="bi bi-circle"></i>                                      
+                                                <span>Setup Model</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="SMTMBChangeMat.aspx">
+                                                <i class="bi bi-circle"></i><span>Change Material</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="SMTMBChangeLot.aspx">
+                                                <i class="bi bi-circle"></i><span>Change Lot</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="SMTMBChangeCass.aspx">
+                                                <i class="bi bi-circle"></i><span>Change Cassette</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link collapsed" data-bs-target="#SMTHistory-nav" data-bs-toggle="collapse" href="#">
+                                        <i class="bi bi-menu-button-wide"></i>
+                                        <span>SMT History</span><i class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                    <ul id="SMTHistory-nav" class="nav-content collapse">
+                                        <li>
+                                            <a href="SMTMBCHIS.aspx" >
+                                              <i class="bi bi-circle"></i>
+                                                <span>History</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-heading" style="font-size: 1rem;">MaterialBarcode ASS
+                             <img src="<%= ResolveUrl("~/image/Gear.gif") %>" alt="Loading..." width="7%" />
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link show" data-bs-toggle="collapse" href="#MaterialBarcodeSystemASS-nav">
+                                <i class="bi bi-menu-button-wide"></i>
+                                <span>MBS (ASS)</span>
+                                <i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="collapsed show" id="MaterialBarcodeSystemASS-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link collapsed " data-bs-toggle="collapse" href="#MBSetupModelAssembly-nav">
+                                        <i class="bi bi-menu-button-wide"></i>
+                                        <span>ASS Using</span>
+                                        <i class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                    <ul class="nav-content collapse" id="MBSetupModelAssembly-nav">
+                                        <li>
+                                            <a href="MBSetupModelAssembly.aspx ">
+                                                   
+                                                <i class="bi bi-circle"></i>
+                                                <span>Material Record</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link collapsed show" data-bs-toggle="collapse" href="#MBSetupModelAssembly2-nav">
+                                        <i class="bi bi-menu-button-wide"></i>
+                                        <span>ASS History</span>
+                                        <i class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                    <ul class="nav-content collapse" id="MBSetupModelAssembly2-nav">
+                                        <li>
+                                            <a href="MBSetupModelAssembly.aspx">
+                                                <i class="bi bi-circle"></i><span>Open History</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link show" data-bs-toggle="collapse" href="#MBSetupModelAssembly3-nav">
+                                        <i class="bi bi-menu-button-wide"></i>
+                                        <span>ADMIN</span>
+                                        <i class="bi bi-chevron-down ms-auto"></i>
+                                    </a>
+                                    <ul class="nav-content collapse show" id="MBSetupModelAssembly3-nav">
+                                        <li>
+                                            <a href="ADMIN_ASS_REGISUSER.aspx"  class ="active">
+                                                <img src="<%= ResolveUrl("~/image/Chasing arrows.gif") %>" alt="Loading..." width="7%" />
+                                                <%--<i class="bi bi-circle"></i>--%>
+                                                <span> Register User</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="ADMIN_ASS_REGISMODEL.aspx">
+                                                <i class="bi bi-circle"></i><span>Register Model</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="ADMIN_ASS_CHANGEMAT.aspx">
+                                                <i class="bi bi-circle"></i><span>Change Material</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+
+
+
+        <main id="main" class="main">
+            <div class="pagetitle">
+                <h1>Material Record for Assembly Admin Change Material</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="http://172.16.72.179/MT800PST-ALLPRODUCT/">MT800</a></li>
+                        <li class="breadcrumb-item">MaterialBarcodeSystem</li>
+                        <li class="breadcrumb-item active">Register User</li>
+                    </ol>
+                </nav>
+            </div>
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="card-title">Login Admin RegisterUser</h3>
+                                </div>
+                                <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="tbUser" EventName="TextChanged" />
+                                    </Triggers>
+                                    <ContentTemplate>
+                                       <div class="card-text">ไอดีแอดมิน / AdminID :</div>
+                                        <asp:Panel ID="Panel1" runat="server">
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="tbUser" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true"  
+                                                    Width="100%" class="form-control" placeholder="ใส่ ID Admin" onblur="__doPostBack('','');" />
+                                            </label>
+                                            </asp:Panel>
+                                            <asp:Panel ID="Panel5" runat="server" Visible ="false" >
+                                            <div class="card-text">รหัสแอดมิน / AdminPassword :</div>
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="tbpassword" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true" 
+                                                    Width="100%" class="form-control" placeholder="ใส่ PasswordAdmin" onblur="__doPostBack('','');" OnTextChanged="tbpassword_TextChanged"/>
+                                            </label>
+                                        </asp:Panel>
+                                       
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                        </div>
+
+                                  <div class="card">
+                                      <asp:Panel ID="Panel7" runat="server" Visible ="false" >
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="card-title">Search</h3>
+                                </div>
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="tbUser" EventName="TextChanged" />
+                                    </Triggers>
+                                    <ContentTemplate>
+                                       
+                                        
+                                              <div class="card-text">ค้นหาชื่อพนักงาน / Search for employee name :
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="TextBox1" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true"
+                                                    Width="100%" class="form-control" placeholder="ใส่ชื่อพนักงานสำหรับค้นหา" onblur="__doPostBack('','');" />
+                                            </label>
+                                                    </br>
+                                                    </br>
+                                                    </div>
+                                                <div class="card-text">ค้นหารหัสพนักงาน / Search for employee id :
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="TextBox2" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true"
+                                                    Width="100%" class="form-control" placeholder="ใส่รหัสพนักงานสำหรับค้นหา" onblur="__doPostBack('','');" />
+                                            </label>
+                                                    </div>
+                                        
+                                       
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                                          </asp:Panel>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <asp:Panel ID="Panel3" runat="server" Visible ="false" >
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="card-title">Register User</h3>
+                                </div>
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="tbUser" EventName="TextChanged" />
+                                         <asp:AsyncPostBackTrigger ControlID="tbEmployeeId" EventName="TextChanged" />
+                                        <asp:PostBackTrigger ControlID="Button1" />
+                                    </Triggers>
+                                    <ContentTemplate>
+                                         <asp:Panel ID="Panel2" runat="server">
+                                       <div class="card-text">รหัสพนักงาน / Employee ID :</div>
+                                       
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="tbEmployeeId" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true"
+                                                    Width="100%" class="form-control" placeholder="ใส่ Employee ID" onblur="__doPostBack('','');" />
+                                            </label>
+                                            </br>
+                                            </br>
+                                             </asp:Panel>
+                                             <asp:Panel ID="Panel6" runat="server" Visible ="false" >
+                                            <div class="card-text">ชื่อพนักงาน / Employee Name :</div>
+                                            <label class="custom-field three" style="width: 100%">
+                                                <asp:TextBox ID="tbEmployeeName" runat="server" autocomplete="off" ForeColor="black" AutoPostBack="true" Visible="true" ReadOnly="true"
+                                                    Width="100%" class="form-control" placeholder="ใส่ PasswordAdmin" onblur="__doPostBack('','');" />
+                                            </label>
+                                            
+                                        </asp:Panel>
+                                        </br>                                          
+
+                                        <asp:Panel ID="PNBUT" runat="server" class="text-center" Visible ="false" >
+                                            <%--<button id="Button1" runat="server"  type="button" class="btn btn-outline-dark"  >ยืนยันการลงข้อมูล</button>--%>
+                                                <asp:Button ID="Button1" runat="server" Text="ยืนยันการลงข้อมูล" type="button" class="btn btn-primary" />
+                                            </asp:Panel>  
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                                </asp:Panel>  
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                               <asp:Panel ID="Panel4" runat="server" Visible="false" >
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="card-title">UserID and UserName Employee</h3>
+                                </div>
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="tbUser" EventName="TextChanged" />
+                                         <asp:PostBackTrigger ControlID="btnConfirmDelete" />
+                                        <asp:PostBackTrigger ControlID="btnConCfirmDelete" />
+                                        <asp:PostBackTrigger ControlID="Button1" />
+                                    </Triggers>
+                                    <ContentTemplate>
+                                      
+                                        <asp:Panel ID="PanelMATERIALHIS" runat="server">
+                                   
+                                            <div class="table-responsive">
+                                                
+                                              
+                                                <h5 class="card-title">USER HIS</h5>
+                                                <asp:GridView ID="gvUSER" runat="server" ShowHeader="true" AutoGenerateColumns="false"
+                                                    CssClass="table table-hover table-scrollable"
+                                                    OnRowEditing="gvUSER_RowEditing" OnRowUpdating="gvUSER_RowUpdating" OnRowCancelingEdit="gvUSER_RowCancelingEdit" OnRowDeleting="gvUSER_RowDeleting"
+                                                    DataKeyNames="ROWID">
+                                                    <Columns>
+                                                        <asp:BoundField DataField="USERID" HeaderText="USERID" />
+                                                        <asp:BoundField DataField="USERNAME" HeaderText="USERNAME" />
+                                                         <asp:BoundField DataField="POSITION" HeaderText="POSITION" />
+                                                         <asp:BoundField DataField="PRODUCT" HeaderText="PRODUCT" />
+                                                        <asp:BoundField DataField="KEYHIS" HeaderText="KEYHIS" />
+                                                        <asp:TemplateField HeaderText="Update">
+                                                            <ItemTemplate>
+                                                                <asp:Button runat="server" Text="Edit" CommandName="Edit" />
+                                                            </ItemTemplate>
+                                                            <EditItemTemplate>
+                                                                <asp:Button runat="server" Text="Update" CommandName="Update" />
+                                                                <asp:Button runat="server" Text="Cancel" CommandName="Cancel" />
+                                                            </EditItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:Button runat="server" Text="Insert" CommandName="Insert" />
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                         <asp:TemplateField HeaderText="Delete">
+                                                            <ItemTemplate>
+                                                                <asp:Button runat="server" Text="Delete" CommandName="Delete" OnClientClick='<%# "return showDeleteConfirmation(""" + Eval("ROWID").ToString() + """);" %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+
+                                                    </Columns>
+                                                </asp:GridView>
+                                                <asp:HiddenField ID="hfCustomerId" runat="server" />
+                                                <div id="confirmDeleteModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>คุณต้องการลบข้อมูล ใช่/Yes หรือ ไม่/No?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <asp:Button ID="btnConfirmDelete" runat="server" Text="ใช่" CssClass="btn btn-danger" OnClick="btnConfirmDelete_Click" />
+                                                                 <asp:Button ID="btnConCfirmDelete" runat="server" Text="ไม่" CssClass="btn btn-default" OnClick="btnConfirmCDelete_Click"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- JavaScript Function to Show Delete Confirmation Modal -->
+                                                <script type="text/javascript">
+                                                    function showDeleteConfirmation(rowId) {
+                                                        document.getElementById('<%= hfCustomerId.ClientID %>').value = rowId;
+                                                        confirmDeleteModal = $('#confirmDeleteModal');
+                                                        confirmDeleteModal.modal('show');
+                                                        return false; // Prevent postback
+                                                    }
+                                                </script>
+                                            </div>
+                                        
+                                    
+                                </asp:Panel>
+                                       
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                                     </asp:Panel>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+        <script src="assets/js/popper.min.js" type="text/javascript"></script>
+        <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+        <script src="assets/js/apexcharts.min.js" type="text/javascript"></script>
+        <script src="assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <script src="assets/js/chart.min.js" type="text/javascript"></script>
+        <script src="assets/js/echarts.min.js" type="text/javascript"></script>
+        <script src="assets/js/quill.min.js" type="text/javascript"></script>
+        <script src="assets/js/simple-datatables.js" type="text/javascript"></script>
+        <script src="assets/js/tinymce.min.js" type="text/javascript"></script>
+        <script src="assets/js/validate.js" type="text/javascript"></script>
+        <script src="assets/js/main.js" type="text/javascript"></script>
+
+    </form>
+</body>
+</html>
+
